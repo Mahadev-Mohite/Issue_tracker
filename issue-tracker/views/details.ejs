@@ -1,0 +1,193 @@
+<!-- projectDetail.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details</title>
+    <link rel="stylesheet" type="text/css" href="/details.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    
+    
+</head>
+<body>
+    <ul class="nav justify-content-center bg-info fixed-top" >
+        <li class="nav-item">
+          <a class="nav-link active text-light" aria-current="page" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active text-light" aria-current="page" href="/creat">Create Project</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="/details"><u>Project Details</u> </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="/issue">Creat issue</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled text-light" href="/home" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+    </ul>
+    <form method="post" action="/issue">
+    <div class="container">
+        <h1>Project Details</h1>
+
+        <!-- Filtering options -->
+        <div class="mb-3">
+            <label for="labels">Filter by Labels:</label>
+            <select id="labels" name="labels" multiple>
+                <!-- Populate the select options with available labels -->
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="author">Filter by Author:</label>
+            <input type="text" id="author" name="author" placeholder="Enter author name">
+        </div>
+        <div class="mb-3">
+            <label for="search">Search by Title or Description:</label>
+            <input type="text" id="search" name="search" placeholder="Enter search keywords">
+        </div>
+
+        <!-- Button to create a new issue -->
+        <!-- <div><button type="submit" name="crbt4" class="btn mb-3 btn-success">Create New Issue</button> -->
+        </div>
+    </form>
+        <!-- Add other HTML content here -->
+    </div>
+    <div class="info mx-auto text-center">
+        <% if (data) { %>
+            <% for (let i = 0; i < data.length; i++) { %>
+                <div class="card card-item">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= data[i].projectName %></h5>
+                        <p class="card-text"><%= data[i].projectDescription%></p>
+                        <p class="card-text"><%= data[i].projectAuthor %></p>
+                        <a href="/delete/<%= data[i]._id %>?source=details" class="btn btn-danger">Delete</a>
+                        <div><button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#btndis">
+                            Creat issue
+                          </button>
+
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+        <p>&copy; All rights are reserved by Mahadev Mohite ..</p>
+    </div>
+    <div class="modal fade" id="btndis">
+        <div class="modal-dialog modal-lg" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Issue Page</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/issue">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Enter issue title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" placeholder="Enter issue description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="labels" class="form-label">Labels</label>
+                            <input type="text" class="form-control" id="labels" name="labels" placeholder="Enter labels (comma-separated)">
+                        </div>
+                        <div class="mb-3">
+                            <label for="author" class="form-label">Author</label>
+                            <input type="text" class="form-control" id="author" name="author" placeholder="Enter author name" required>
+                        </div>
+                        <button type="submit" name="crbt5" class="btn btn-primary ">Create Issue</button>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+       
+
+        // console.log(data);
+        document.addEventListener("DOMContentLoaded", function () {
+            // const data = <%= JSON.stringify(data) %>; // Make sure data is available as an array
+        
+            // Function to update the displayed list based on filters
+            function updateList() {
+                const labelsFilter = document.getElementById("labels").value;
+                const authorFilter = document.getElementById("author").value.toLowerCase();
+                const searchFilter = document.getElementById("search").value.toLowerCase();
+        
+                const filteredData = data.filter(item => {
+                    // Filter by Labels
+                    if (labelsFilter.length > 0) {
+                        const itemLabels = item.labels.map(label => label.toLowerCase());
+                        return labelsFilter.every(label => itemLabels.includes(label));
+                    }
+        
+                    // Filter by Author
+                    if (authorFilter && item.projectAuthor.toLowerCase().includes(authorFilter)) {
+                        return true;
+                    }
+        
+                    // Filter by Title or Description
+                    if (searchFilter && (item.projectName.toLowerCase().includes(searchFilter) || item.projectDescription.toLowerCase().includes(searchFilter))) {
+                        return true;
+                    }
+        
+                    // If no filters are applied, show all items
+                    return true;
+                });
+        
+                // Render the filtered list
+                renderList(filteredData);
+            }
+        
+            // Function to render the list
+            function renderList(data) {
+                const listContainer = document.querySelector(".info");
+                listContainer.innerHTML = "";
+        
+                if (data.length === 0) {
+                    listContainer.innerHTML = "<p>No matching projects found.</p>";
+                } else {
+                    data.forEach(item => {
+                        const card = document.createElement("div");
+                        card.classList.add("card", "card-item");
+        
+                        card.innerHTML = `
+                            <div class="card-body">
+                                <h5 class="card-title">${item.projectName}</h5>
+                                <p class="card-text">${item.projectDescription}</p>
+                                <p class="card-text">${item.projectAuthor}</p>
+                                <a href="/delete/${item._id}" class="btn btn-danger">Delete</a>
+                            </div>
+                        `;
+        
+                        listContainer.appendChild(card);
+                    });
+                }
+            }
+        
+            // Add event listeners to filter controls
+            document.getElementById("labels").addEventListener("change", updateList);
+            document.getElementById("author").addEventListener("input", updateList);
+            document.getElementById("search").addEventListener("input", updateList);
+        
+            // Initial list rendering
+            renderList(data);
+        });
+        </script>
+        
+</body>
+</html>

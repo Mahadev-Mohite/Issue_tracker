@@ -1,0 +1,37 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Make the body take up the full viewport height */
+    background-color: #f0f0f0;
+}
+.form-container {
+    background-color: #ffffff; /* Background color for the form */
+    padding: 20px; /* Padding inside the form container */
+    border-radius: 10px; /* Rounded corners for the form container */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Shadow for the form container */
+}
+input.form-control {
+    border: 2px solid #007BFF; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding inside the input box */
+    font-size: 16px; /* Font size */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Shadow */
+}
+
+/* Style for the submit button */
+.btn-primary {
+    background-color: #007BFF; /* Button background color */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    color: white; /* Text color */
+    cursor: pointer; /* Cursor on hover */
+}
+label {
+    display: inline-block;
+    font-weight: bold;
+    color: #007BFF; /* Label color */
+    margin-bottom: 5px; /* Space between label and input */
+}

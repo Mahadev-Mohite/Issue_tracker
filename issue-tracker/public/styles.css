@@ -1,0 +1,25 @@
+.mary{
+    margin-left:45%;
+    margin-right:200px;
+}
+/* ul{
+    background-color: chocolate;
+    align-items: center;
+    text-align: center;
+    border-bottom: 2px solid black;
+} */
+.info ul {
+    list-style-type: disc; /* Use disc for bullet points */
+    padding-left: 20px;    /* Adjust the left padding for spacing */
+}
+
+.info li {
+    margin-bottom: 10px;  /* Add spacing between list items */
+}
+.card-item {
+    background-color: #f0f0f0; /* Set the background color */
+    border: 1px solid #ccc;   /* Add a border for the card */
+    border-radius: 5px;       /* Round the card corners */
+    padding: 15px;            /* Add padding inside the card */
+    margin-bottom: 20px;     /* Add spacing between cards */
+}
